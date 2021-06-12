@@ -7,7 +7,7 @@ const Board = styled.div`
   background-color: 'brown';
   width: 100wv;
   height: 100vh;
-  background: #eab92d;
+  background: #86a5d9;
 `
 
 const initialNotes = [
@@ -35,7 +35,7 @@ const App = () => {
       {notes?.map((note) => (
         <Note
           key={note.id}
-          note={note.note}
+          note={note}
           update={updateNote(note.id)}
           delete={deleteNote(note.id)}
         />
