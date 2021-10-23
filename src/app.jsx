@@ -1,13 +1,13 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import styled from 'styled-components'
 
 import Note from 'components/note'
 
 const Board = styled.div`
-  background-color: 'brown';
-  width: 100wv;
+  width: 100vw;
   height: 100vh;
   background: #86a5d9;
+  overflow: hidden;
 `
 
 const initialNotes = [
@@ -19,6 +19,7 @@ const initialNotes = [
 
 const App = () => {
   const [notes, setNotes] = useState(initialNotes)
+  const boardRef = useRef(null)
 
   const updateNote = (id) => (note) => {
     setNotes(
@@ -31,9 +32,10 @@ const App = () => {
   }
 
   return (
-    <Board>
+    <Board ref={boardRef}>
       {notes?.map((note) => (
         <Note
+          boardRef={boardRef}
           key={note.id}
           note={note}
           update={updateNote(note.id)}

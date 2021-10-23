@@ -1,30 +1,59 @@
 import PropTypes from 'prop-types'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import styled from 'styled-components'
 import useWindowSize from 'hooks/use-window-size'
+import { motion } from 'framer-motion'
 
 const randomBetween = (a, b) => a + Math.ceil(Math.random() * (b - a))
 
-const NoteStyles = styled.div`
+const noteSize = 150
+
+const NoteStyles = styled(motion.div)`
   position: absolute;
-  height: 150px;
-  width: 150px;
-  /* background-color: #eeb902; */
+  height: ${noteSize}px;
+  width: ${noteSize}px;
+
   background-color: #ffe74c;
-  margin: 2px 0;
+
+  padding: 5px;
   cursor: grab;
-  box-shadow: 5px 5px 15px 0 rgba(0, 0, 0, 0.2);
+
   overflow: hidden;
 `
 
-const Note = ({ note }) => {
+const Note = ({ note, boardRef }) => {
   const { width, height } = useWindowSize()
   const [editing, setEditing] = useState(false)
-  const positions = {
-    top: `${randomBetween(0, height - 150)}px`,
-    right: `${randomBetween(0, width - 150)}px`,
-  }
-  return <NoteStyles style={positions}>note {note.note}</NoteStyles>
+
+  const positions = useMemo(
+    () => ({
+      top: `${randomBetween(0, height - noteSize)}px`,
+      right: `${randomBetween(0, width - noteSize)}px`,
+    }),
+    [height, width]
+  )
+
+  return (
+    <NoteStyles
+      drag
+      style={{
+        ...positions,
+        opacity: 0.9,
+        boxShadow: '5px 5px 15px #222',
+      }}
+      dragConstraints={boardRef}
+      whileHover={{ opacity: 1 }}
+      whileTap={{
+        opacity: 1,
+        scale: 1.05,
+        boxShadow: '0px 5px 8px #222',
+      }}
+      whileDrag={{ scale: 1.1, boxShadow: '0px 10px 16px #222' }}
+      transition={{ duration: 0.6 }}
+    >
+      note {note.note}
+    </NoteStyles>
+  )
 }
 
 Note.propTypes = {
@@ -33,6 +62,10 @@ Note.propTypes = {
     note: PropTypes.string.isRequired,
     update: PropTypes.func.isRequired,
     delete: PropTypes.func.isRequired,
+    boardRef: PropTypes.oneOfType([
+      PropTypes.func, // for legacy refs
+      PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+    ]),
   }),
 }
 
