@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { useState } from 'react'
 import styled from 'styled-components'
-import useWindowSize from '../hooks/use-window-size'
+import useWindowSize from 'hooks/use-window-size'
 
 const randomBetween = (a, b) => a + Math.ceil(Math.random() * (b - a))
 

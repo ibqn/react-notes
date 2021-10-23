@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import App from './app'
-import GlobalStyles from './components/global-styles'
-import reportWebVitals from './reportWebVitals'
+import App from 'app'
+import GlobalStyles from 'components/global-styles'
+import reportWebVitals from 'reportWebVitals'
 
 import '@fontsource/shadows-into-light'
 

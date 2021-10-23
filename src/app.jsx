@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import styled from 'styled-components'
 
-import Note from './components/note'
+import Note from 'components/note'
 
 const Board = styled.div`
   background-color: 'brown';
